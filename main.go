@@ -31,12 +31,8 @@ Loop:
 
 			case *slack.MessageEvent:
 				fmt.Printf("Message: %v\n", ev)
-				info := rtm.GetInfo()
-				prefix := fmt.Sprintf("<@%s> ", info.User.ID)
 
-				if ev.User != info.User.ID && strings.HasPrefix(ev.Text, prefix) {
-					respond(rtm, ev, prefix)
-				}
+				respond(rtm, ev)
 
 			case *slack.RTMError:
 				fmt.Printf("Error: %s\n", ev.Error())
@@ -52,10 +48,12 @@ Loop:
 	}
 }
 
-func respond(rtm *slack.RTM, msg *slack.MessageEvent, prefix string) {
+func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
+	wiki_user := os.Getenv("WIKI_USER")
+	wiki_pass := os.Getenv("WIKI_PASS")
+
 	var response string
 	text := msg.Text
-	text = strings.TrimPrefix(text, prefix)
 	text = strings.TrimSpace(text)
 	text = strings.ToLower(text)
 
@@ -76,6 +74,11 @@ func respond(rtm *slack.RTM, msg *slack.MessageEvent, prefix string) {
 	} else if acceptedHowAreYou[text] {
 		response = "Good. How are you?"
 		rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
+	} else if strings.HasPrefix(text, ":construction:") {
+		response = "Sending message to wiki!"
+		rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
+		message := fmt.Sprintln("<p>", msg.Text, "</p>")
+		wiki(wiki_user, wiki_pass, message)
 	}
 
 }

@@ -25,10 +25,10 @@ type pageStruct struct {
 	} `json:"version"`
 }
 
-func main() {
+func wiki(user, pass, message string) {
 
 	// Create Basic Auth
-	auth := gopencils.BasicAuth{Username: "archimedes", Password: "LOOKINLASTPASS"}
+	auth := gopencils.BasicAuth{Username: user, Password: pass}
 
 	// Create New Api with our auth
 	api := gopencils.Api("https://newcontext.atlassian.net/wiki/rest/api/content/78025190", &auth)
@@ -56,7 +56,7 @@ func main() {
 	fmt.Printf("Body: %v \n", fetchData) // resp.Body.Storage.Value)
 
 	version := fetchData.Version.Number + 1
-	body := fetchData.Body.Storage.Value + "<p>NEW STUFF 123</p>"
+	body := fetchData.Body.Storage.Value + message
 
 	// postData.Expandable.Version = version
 	fetchData.Body.Storage.Value = body
