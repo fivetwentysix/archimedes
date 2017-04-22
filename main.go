@@ -17,6 +17,9 @@ func main() {
 	rtm := api.NewRTM()
 	go rtm.ManageConnection()
 
+	c, err := api.JoinChannel("project-archimedes")
+	fmt.Println(c, err)
+
 Loop:
 	for {
 		select {
