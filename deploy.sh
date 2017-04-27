@@ -46,9 +46,6 @@ make_task_def(){
 			"essential": true,
 			"memory": 300,
 			"cpu": 10,
-			"entryPoint": [],
-			"links": [],
-			"command": [],
 			"environment": [
 			    {
 			      "name": "SLACK_TOKEN",

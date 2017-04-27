@@ -2,7 +2,7 @@ FROM alpine:3.4
 
 RUN apk add --no-cache ca-certificates
 
-ADD archimedes archimedes
-RUN chmod +x archimedes
+COPY ./archimedes /opt/
+RUN chmod +x /opt/archimedes
 
-CMD ["./archimedes"]
+ENTRYPOINT ["/opt/archimedes"]
