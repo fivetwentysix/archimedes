@@ -45,11 +45,24 @@ make_task_def(){
 			"image": "%s.dkr.ecr.us-east-1.amazonaws.com/archimedes:%s",
 			"essential": true,
 			"memory": 200,
-			"cpu": 10
+			"cpu": 10,
+			"environment": [
+			    {
+			      "name": "SLACK_TOKEN",
+			      "value": "%s"
+			    },
+			    {
+			      "name": "WIKI_USER",
+			      "value": "%s"
+			    },
+			    {
+			      "name": "WIKI_PASS",
+			      "value": "%s"
+			    }
 		}
 	]'
 	
-	task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $CIRCLE_SHA1 $SLACK_TOKEN $WIKI_PASS $WIKI_USER)
+	task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $CIRCLE_SHA1 $SLACK_TOKEN $WIKI_USER $WIKI_PASS)
 }
 
 push_ecr_image(){
