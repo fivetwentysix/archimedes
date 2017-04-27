@@ -10,6 +10,7 @@ import (
 
 func main() {
 
+	// TODO validate env var exists
 	token := os.Getenv("SLACK_TOKEN")
 	api := slack.New(token)
 	api.SetDebug(true)
@@ -49,6 +50,7 @@ Loop:
 }
 
 func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
+	// TODO validate env vars exist
 	wiki_user := os.Getenv("WIKI_USER")
 	wiki_pass := os.Getenv("WIKI_PASS")
 
