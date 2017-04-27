@@ -1,0 +1,54 @@
+{
+	"ImportPath": "github.com/newcontext/archimedes",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/bndr/gopencils",
+			"Rev": "22e283ad76118c1e1f3812b4a3553809cd434e6a"
+		},
+		{
+			"ImportPath": "github.com/go-stack/stack",
+			"Comment": "v1.5.2",
+			"Rev": "100eb0c0a9c5b306ca2fb4f165df21d80ada4b82"
+		},
+		{
+			"ImportPath": "github.com/inconshreveable/log15",
+			"Comment": "v2.3-92-g39bacc2",
+			"Rev": "39bacc234bf1afd0b68573e95b45871f67ba2cd4"
+		},
+		{
+			"ImportPath": "github.com/inconshreveable/log15/term",
+			"Comment": "v2.3-92-g39bacc2",
+			"Rev": "39bacc234bf1afd0b68573e95b45871f67ba2cd4"
+		},
+		{
+			"ImportPath": "github.com/kevinburke/rest",
+			"Comment": "1.0",
+			"Rev": "67ce29f826f2153dfdb5df53c0ff7f655efb36f0"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-colorable",
+			"Comment": "v0.0.7-24-gded68f7",
+			"Rev": "ded68f7a9561c023e790de24279db7ebf473ea80"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-isatty",
+			"Comment": "v0.0.2",
+			"Rev": "fc9e8d8ef48496124e79ae0df75490096eccf6fe"
+		},
+		{
+			"ImportPath": "github.com/nlopes/slack",
+			"Comment": "v0.0.1-210-g72d15a0",
+			"Rev": "72d15a0fc0b773a59c00f78b9e7d97eeb8c4281f"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "da118f7b8e5954f39d0d2130ab35d4bf0e3cb344"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "9f30dcbe5be197894515a338a9bda9253567ea8f"
+		}
+	]
+}
