@@ -1,7 +1,9 @@
-FROM alpine:3.4
+FROM ubuntu:14.04
 
-RUN apk add --no-cache ca-certificates
-
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates \
+ && apt-get clean
+ 
 COPY ./archimedes /opt/
 RUN chmod +x /opt/archimedes
 
