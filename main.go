@@ -62,6 +62,7 @@ func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
 	acceptedGreetings := map[string]bool{
 		"what's up?": true,
 		"hey!":       true,
+		"hello":      true,
 		"yo":         true,
 	}
 	acceptedHowAreYou := map[string]bool{
