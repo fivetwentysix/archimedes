@@ -44,8 +44,11 @@ make_task_def(){
 			"name": "archimedes",
 			"image": "%s.dkr.ecr.us-east-1.amazonaws.com/archimedes:%s",
 			"essential": true,
-			"memory": 200,
+			"memory": 300,
 			"cpu": 10,
+			"entryPoint": [],
+			"links": [],
+			"command": [],
 			"environment": [
 			    {
 			      "name": "SLACK_TOKEN",
