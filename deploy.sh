@@ -59,6 +59,7 @@ make_task_def(){
 			      "name": "WIKI_PASS",
 			      "value": "%s"
 			    }
+                        ]
 		}
 	]'
 	
