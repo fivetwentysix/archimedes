@@ -10,4 +10,5 @@ COPY ./data/zip.csv /opt/data
 COPY ./archimedes /opt/
 RUN chmod +x /opt/archimedes
 
+WORKDIR /opt
 ENTRYPOINT ["/opt/archimedes"]
