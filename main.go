@@ -6,20 +6,23 @@ import (
 	"strings"
 
 	"github.com/nlopes/slack"
+	"github.com/spf13/viper"
 )
 
 func main() {
+	viper.SetEnvPrefix("OWL")
+	viper.AutomaticEnv()
 
-	// TODO validate env var exists
-	token := os.Getenv("SLACK_TOKEN")
-	api := slack.New(token)
-	api.SetDebug(true)
+	slackToken := viper.GetString("SLACK_TOKEN")
+
+	debug := viper.GetBool("DEBUG")
+
+	api := slack.New(slackToken)
+	api.SetDebug(debug)
 
 	rtm := api.NewRTM()
 	go rtm.ManageConnection()
-
-	c, err := api.JoinChannel("project-archimedes")
-	fmt.Println(c, err)
+	fmt.Println(slackToken)
 
 Loop:
 	for {
@@ -50,9 +53,13 @@ Loop:
 }
 
 func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
-	// TODO validate env vars exist
+
+	// TODO: Figure out better way to pass these environment variables around
+	viper.SetEnvPrefix("OWL")
+	viper.AutomaticEnv()
 	wiki_user := os.Getenv("WIKI_USER")
 	wiki_pass := os.Getenv("WIKI_PASS")
+	weatherToken := viper.GetString("WEATHER_TOKEN")
 
 	var response string
 	text := msg.Text
@@ -82,6 +89,13 @@ func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
 		rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
 		message := fmt.Sprintln("<p>", msg.Text, "</p>")
 		wiki(wiki_user, wiki_pass, message)
+	} else if strings.HasPrefix(text, "weather") {
+		s := strings.Split(text, " ")
+		zipCode := s[1]
+
+		summary, temperature := getWeather(weatherToken, zipCode)
+		response := fmt.Sprintf("It is %s with a temperature of %.f°F\n", strings.ToLower(summary), temperature)
+		rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
 	}
 
 }
