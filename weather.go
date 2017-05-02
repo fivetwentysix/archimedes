@@ -52,5 +52,7 @@ func getCoords(zip string) (lat, lon string) {
 		}
 		lineCount++
 	}
-	return "Unknown", "Unknown"
+
+	// Some valid value if no match is found.
+	return "0", "0"
 }

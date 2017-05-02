@@ -91,11 +91,17 @@ func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
 		wiki(wiki_user, wiki_pass, message)
 	} else if strings.HasPrefix(text, "weather") {
 		s := strings.Split(text, " ")
-		zipCode := s[1]
 
-		summary, temperature := getWeather(weatherToken, zipCode)
-		response := fmt.Sprintf("It is %s with a temperature of %.f°F\n", strings.ToLower(summary), temperature)
-		rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
+		if len(s) == 2 {
+			zipCode := s[1]
+			summary, temperature := getWeather(weatherToken, zipCode)
+			response := fmt.Sprintf("It is %s with a temperature of %.f°F\n", strings.ToLower(summary), temperature)
+			rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
+		} else {
+			response := fmt.Sprintln("Usage: `weather zipcode`")
+			rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
+		}
+
 	}
 
 }
