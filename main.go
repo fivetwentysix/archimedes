@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+	service := Service{}
+	service.init()
+
 	viper.SetEnvPrefix("OWL")
 	viper.AutomaticEnv()
 
@@ -52,20 +55,28 @@ Loop:
 	}
 }
 
-func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
+type Service struct {
+	user         string
+	pass         string
+	weatherToken string
+}
 
-	// TODO: Figure out better way to pass these environment variables around
+func (s *Service) init() {
 	viper.SetEnvPrefix("OWL")
 	viper.AutomaticEnv()
-	wiki_user := os.Getenv("WIKI_USER")
-	wiki_pass := os.Getenv("WIKI_PASS")
-	weatherToken := viper.GetString("WEATHER_TOKEN")
+	s.user = os.Getenv("WIKI_USER")
+	s.pass = os.Getenv("WIKI_PASS")
+	s.weatherToken = viper.GetString("WEATHER_TOKEN")
 
+	s.loadIntents()
+}
+
+func (s *Service) HandleMsg(s string) {
+	s.respond(s.lookup())
+}
+
+func (s *Service) respond(rtm *slack.RTM, msg *slack.MessageEvent) {
 	var response string
-	text := msg.Text
-	text = strings.TrimSpace(text)
-	text = strings.ToLower(text)
-
 	acceptedGreetings := map[string]bool{
 		"what's up?": true,
 		"hey!":       true,
@@ -77,6 +88,9 @@ func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
 		"how are ya?":     true,
 		"feeling okay?":   true,
 	}
+	text := msg.Text
+	text = strings.TrimSpace(text)
+	text = strings.ToLower(text)
 
 	if acceptedGreetings[text] {
 		response = "What's up buddy!?!?!"
@@ -88,7 +102,7 @@ func respond(rtm *slack.RTM, msg *slack.MessageEvent) {
 		response = "Sending message to wiki!"
 		rtm.SendMessage(rtm.NewOutgoingMessage(response, msg.Channel))
 		message := fmt.Sprintln("<p>", msg.Text, "</p>")
-		wiki(wiki_user, wiki_pass, message)
+		wiki(s.user, wiki_pass, message)
 	} else if strings.HasPrefix(text, "weather") {
 		s := strings.Split(text, " ")
 
